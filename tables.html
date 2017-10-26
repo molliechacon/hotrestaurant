@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tables Page</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1><span class="glyphicon glyphicon-fire"></span> Hot Restaurant</h1>
+        <h2>Current Reservations and Wait List</h2>
+        <hr>
+        <a href="/reserve"><button type="button" class="btn btn-danger btn-lg"><span class="glyphicon glyphicon-credit-card"></span> Make Reservation</button></a>
+        <a href="/"><button type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-home"></span></button></a>
+    </div>
+
+    <!-- current reservations panel -->
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Current Reservations</strong></h3>
+            </div>
+            <div class="panel-body" id="reservedTables">
+                <!-- current reservations go here -->
+            </div>
+        </div>
+    </div>  
+
+    <!-- waitlist panel -->
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><strong>Wait List</strong></h3>
+            </div>
+            <div class="panel-body" id="waitlistTables">
+             <!-- waitlisted go here -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+
+    function tableQuery() {
+        var currentURL = window.location.origin;
+
+        $.ajax({ url: currentURL + "/api/tables", method: "GET"})
+        .done(function(reservationsData) {
+            console.log("------------------------------------");
+            console.log("URL: " + currentURL + "/api/tables");
+            console.log("------------------------------------");
+
+            console.log(reservationsData);
+            console.log("------------------------------------");
+
+            // Loop through and display each of the customers
+            for (var i = 0; i < reservationsData.length; i++) {
+                // Create the HTML Well (Section) and Add the table content for each reserved table
+                var tableSection = $("<div>");
+                tableSection.addClass("well");
+                tableSection.attr("id", "tableWell-" + i + 1);
+                $("#reservedTables").append(tableSection);
+
+                var tableNumber = i + 1;
+                
+                // Then display the remaining fields in the HTML (Section Name, Date, URL)
+                $("#tableWell-" + i + 1).append("<h2><span class='label label-primary'>" + tableNumber + "</span> | " + reservationsData[i].name + ", " + reservationsData[i].phone + "</h2>");
+            }
+        })
+    }
+
+    function waitlistQuery(){
+        var currentURL = window.location.origin;
+
+        $.ajax({ url: currentURL + "/api/waitlist", method: "GET"})
+        .done(function(waitlistData) {
+            // Here we are logging the URL so we have access to it for troubleshooting
+            console.log("------------------------------------");
+            console.log("URL: " + currentURL + "/api/waitlist");
+            console.log("------------------------------------");
+
+            console.log(waitlistData);
+            console.log("------------------------------------");
+
+            // Loop through and display each of the customers
+            for (var i = 0; i < waitlistData.length; i++) {
+                // Create the HTML Well (Section) and Add the table content for each reserved table
+                var waitlistSection = $("<div>");
+                waitlistSection.addClass("well");
+                waitlistSection.attr("id", "waitlistWell-" + i + 1);
+                $("#waitlistTables").append(waitlistSection);
+
+                var tableNumber = i + 1;
+
+                // Then display the remaining fields in the HTML (Section Name, Date, URL)
+                $("#waitlistWell-" + i + 1).append("<h2><span class='label label-primary'>" + tableNumber + "</span> | " + waitlistData[i].name + ", " + waitlistData[i].phone + "</h2>");
+            }
+        });
+    };
+    
+tableQuery();
+waitlistQuery();
+
+</script>
+</html>

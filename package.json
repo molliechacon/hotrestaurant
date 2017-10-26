@@ -1,0 +1,24 @@
+{
+  "name": "hotrestaurant",
+  "version": "1.0.0",
+  "description": "app for viewing and making reservations",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molliechacon/hotrestaurant.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/molliechacon/hotrestaurant/issues"
+  },
+  "homepage": "https://github.com/molliechacon/hotrestaurant#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
